@@ -49,6 +49,7 @@ namespace SingleResponsibilityPrinciple
 
         private bool ValidateTradeData(string[] fields, int currentLine)
         {
+
             if (fields.Length != 3)
             {
                 LogMessage("WARN: Line {0} malformed. Only {1} field(s) found.", currentLine, fields.Length);
@@ -63,6 +64,17 @@ namespace SingleResponsibilityPrinciple
 
             int tradeAmount;
             if (!int.TryParse(fields[1], out tradeAmount))
+            {
+                LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
+                return false;
+            }
+
+            if (tradeAmount<1000)
+            {
+                LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
+                return false;
+            }
+            if (tradeAmount>100000)
             {
                 LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
                 return false;
